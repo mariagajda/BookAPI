@@ -1,11 +1,12 @@
 package pl.coderslab.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import pl.coderslab.DTO.BookDTO;
 import pl.coderslab.model.Book;
-import pl.coderslab.model.BookService;
-import pl.coderslab.model.MockBookService;
+import pl.coderslab.interfaces.BookService;
 
 
 import java.util.List;
@@ -13,39 +14,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/books")
 public class BookController {
-    private BookService bookService;
+    private final BookService bookService;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
 
     @GetMapping("")
-    public List<Book> getList() {
-        return bookService.getBooksList();
+    public ResponseEntity getList() {
+        return ResponseEntity.ok(bookService.getBooksList());
     }
 
     @PostMapping("")
-    public Book addBook(String isbn, String title, String author, String publisher, String type) {
-        return bookService.addBook(isbn, title, author, publisher, type);
+    public ResponseEntity addBook(BookDTO bookDTO) {
+        return ResponseEntity.ok(bookService.addBook(bookDTO));
     }
 
     @GetMapping("/{id}")
-    public Book bookInfo(@PathVariable Long id) {
-        return this.bookService.getBookById(id).orElseThrow(() -> {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "entity not found"
-            );
-    });
-}
+    public ResponseEntity bookInfo(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
+    }
 
     @PutMapping("/{id}")
-    public void updateBook(@PathVariable Long id, String isbn, String title, String author, String publisher, String type) {
-        bookService.updateBookData(id, isbn, title, author, publisher, type);
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, BookDTO bookDTO) {
+        return ResponseEntity.ok(bookService.updateBookData(id, bookDTO));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable Long id) {
-        bookService.removeBook(id);
+    public ResponseEntity<Book> deleteBook(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.removeBook(id));
     }
 }
 

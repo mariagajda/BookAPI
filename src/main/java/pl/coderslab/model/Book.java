@@ -1,13 +1,16 @@
 package pl.coderslab.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class Book {
-    private Long id;
+    private final Long id;
     private String isbn;
     private String title;
     private String author;
     private String publisher;
     private String type;
 
+    @JsonCreator
     public Book(Long id, String isbn, String title, String author, String publisher, String type) {
         this.id = id;
         this.isbn = isbn;
@@ -19,10 +22,6 @@ public class Book {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getIsbn() {
