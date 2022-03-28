@@ -32,16 +32,28 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResponseEntity bookInfo(@PathVariable Long id) {
+        if (bookService.getBooksList().stream()
+                .noneMatch(book -> book.getId().equals(id)) || id.equals(null) || id.toString().isEmpty()) {
+            return new ResponseEntity("Brak podanego id książki do wyświetlania lub wskazany id poza zakresem", HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, BookDTO bookDTO) {
+        if (bookService.getBooksList().stream()
+                .noneMatch(book -> book.getId().equals(id)) || id.equals(null) || id.toString().isEmpty()) {
+            return new ResponseEntity("Brak podanego id książki do aktualizacji lub wskazany id poza zakresem", HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok(bookService.updateBookData(id, bookDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Book> deleteBook(@PathVariable Long id) {
+        if (bookService.getBooksList().stream()
+                .noneMatch(book -> book.getId().equals(id)) || id.equals(null) || id.toString().isEmpty()) {
+            return new ResponseEntity("Brak podanego id książki do usunięcia lub wskazany id poza zakresem", HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok(bookService.removeBook(id));
     }
 }
