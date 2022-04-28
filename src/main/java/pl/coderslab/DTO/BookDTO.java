@@ -1,24 +1,13 @@
-package pl.coderslab.model;
+package pl.coderslab.DTO;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name="books")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class BookDTO {
     private String isbn;
     private String title;
     private String author;
     private String publisher;
     private String type;
 
-    @JsonCreator
-    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
-        this.id = id;
+    public BookDTO(String isbn, String title, String author, String publisher, String type) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -26,12 +15,7 @@ public class Book {
         this.type = type;
     }
 
-    public Book() {
-    }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getIsbn() {
         return isbn;

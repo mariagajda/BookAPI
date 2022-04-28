@@ -6,5 +6,6 @@ Celem projektu jest wytworzenie API służącego do zarządzania książkami.
 
 * Spring,
 * Spring MVC,
+* Hibernate,
 * wstrzykiwanie zależności
 * import oraz wykorzystanie zewnętrznych bibliotek.
