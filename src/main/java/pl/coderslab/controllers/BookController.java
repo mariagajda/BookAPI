@@ -45,12 +45,15 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Book> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         if (bookService.getBooksList().stream()
                 .noneMatch(book -> book.getId().equals(id)) || id.equals(null) || id.toString().isEmpty()) {
             return new ResponseEntity("Brak podanego id książki do usunięcia lub wskazany id poza zakresem", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(bookService.removeBook(id));
+        else {
+            bookService.removeBook(id);
+            return ResponseEntity.ok("Book deleted");
+        }
     }
 }
 

@@ -29,7 +29,7 @@ import java.util.Locale;
 @EnableWebMvc
 @ComponentScan
 @EnableTransactionManagement
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "pl.coderslab.interfaces")
 public class AppConfig implements WebMvcConfigurer {
 
     @Bean

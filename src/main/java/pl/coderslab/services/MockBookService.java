@@ -9,7 +9,6 @@ import pl.coderslab.model.Book;
 import java.util.*;
 
 @Service
-@Primary
 public class MockBookService implements BookService {
     private Map<Long, Book> booksMap = new HashMap<>();
     private Long counter = 0L;
@@ -30,8 +29,8 @@ public class MockBookService implements BookService {
         return new ArrayList<>(booksMap.values());
     }
 
-    public Book getBookById(Long id) {
-        return Optional.ofNullable(booksMap.get(id)).orElseThrow(RuntimeException::new);
+    public Optional<Book> getBookById(Long id) {
+        return Optional.ofNullable(booksMap.get(id));
     }
 
     public Book addBook(BookDTO bookDTO) {
@@ -76,8 +75,8 @@ public class MockBookService implements BookService {
         return bookToUpdate;
     }
 
-    public Book removeBook(Long id) {
-        return Optional.ofNullable(booksMap.remove(id)).orElseThrow(RuntimeException::new);
+    public void removeBook(Long id) {
+        Optional.ofNullable(booksMap.remove(id)).orElseThrow(RuntimeException::new);
 
     }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 @Primary
 public class JpaBookService implements BookService {
-   private final BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public JpaBookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -25,22 +25,50 @@ public class JpaBookService implements BookService {
     }
 
     @Override
-    public Book getBookById(Long id) {
-        return null;
+    public Optional<Book> getBookById(Long id) {
+        return bookRepository.findById(id);
     }
 
     @Override
     public Book updateBookData(Long id, BookDTO bookDTO) {
-        return null;
+        Book bookToUpdate = null;
+        if (bookRepository.findById(id).isPresent()) {
+            bookToUpdate = bookRepository.findById(id).get();
+
+            if (bookDTO.getIsbn() != null) {
+                bookToUpdate.setIsbn(bookDTO.getIsbn());
+            }
+
+            if (bookDTO.getTitle() != null) {
+                bookToUpdate.setTitle(bookDTO.getTitle());
+            }
+
+            if (bookDTO.getAuthor() != null) {
+                bookToUpdate.setAuthor(bookDTO.getAuthor());
+            }
+
+            if (bookDTO.getPublisher() != null) {
+                bookToUpdate.setPublisher(bookDTO.getPublisher());
+            }
+            if (bookDTO.getType() != null) {
+                bookToUpdate.setType(bookDTO.getType());
+            }
+            bookRepository.save(bookToUpdate);
+        }
+        return bookToUpdate;
     }
 
     @Override
-    public Book removeBook(Long id) {
-        return null;
+    public void removeBook(Long id) {
+        if (bookRepository.findById(id).isPresent()) {
+            bookRepository.delete(bookRepository.findById(id).get());
+        }
     }
 
     @Override
     public Book addBook(BookDTO bookDTO) {
-        return null;
+        Book book = new Book(bookDTO.getAuthor(), bookDTO.getTitle(), bookDTO.getIsbn(), bookDTO.getPublisher(), bookDTO.getType());
+        bookRepository.save(book);
+        return book;
     }
 }
