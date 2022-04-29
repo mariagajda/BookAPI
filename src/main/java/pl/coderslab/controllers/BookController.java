@@ -1,15 +1,11 @@
-package pl.coderslab.controller;
+package pl.coderslab.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.DTO.BookDTO;
 import pl.coderslab.model.Book;
 import pl.coderslab.interfaces.BookService;
-
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/books")
